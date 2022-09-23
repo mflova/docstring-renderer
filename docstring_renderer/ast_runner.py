@@ -1,3 +1,4 @@
+"""Module that makes use of AST to locate functions, classes and methods."""
 import ast
 from typing import List, Sequence, final
 
@@ -44,14 +45,14 @@ class AstRunner:
         return names
 
     def find_keyword(self) -> str:
-        shortest_match = ""
+        matches = []
         for elem in self.list_all():
-            if self.keyword in elem and -len(elem) < len(shortest_match):
-                shortest_match = elem
+            if self.keyword in elem:
+                matches.append(elem)
 
-        if not shortest_match:
+        if not matches:
             raise AstRunnerError(
                 "Among all defined methods/funcs/classes, no objects could be found "
                 f"with the keyword `{self.keyword}` in the name."
             )
-        return shortest_match
+        return min(matches, key=len)
