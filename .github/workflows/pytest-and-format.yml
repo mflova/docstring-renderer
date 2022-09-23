@@ -1,0 +1,40 @@
+name: Build and run tests and format for the repo.
+on:
+  push:
+    tags:
+      - "**"
+    branches:
+      - "master"
+      - "release/**"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  run-unit-tests:
+    name: Run unit tests with pytest
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install dependencies and run tests
+        run: |
+          python3 -m pip install -U pip
+          python3 -m pip install setuptools
+          pip3 install .[dev]
+          pytest
+
+  check-format:
+    name: Check Python code quality and Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Run tests
+        run: |
+          python3 -m pip install -U pip
+          python3 -m pip install .[dev]
+          python3 -m pip install isort
+          flake8 .
+          mypy .
+          black --check .
+          isort -c .

@@ -1,0 +1,25 @@
+[tool.flake8]
+exclude = "build"
+
+[tool.black]
+line-length = 90
+
+[tool.isort]
+profile = "black"
+
+known_first_party = "utils"
+skip_gitignore = true
+
+[tool.mypy]
+# Logistics of what code to check and how to handle the data.
+scripts_are_modules = true
+show_traceback = true
+
+strict = true
+
+# Display the codes needed for # type: ignore[code] annotations.
+show_error_codes = true
+
+# Prevent third party libraries to raise errors
+ignore_missing_imports = true
+exclude = "docs/|venv/|build/"

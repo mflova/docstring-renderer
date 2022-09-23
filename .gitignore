@@ -1,0 +1,3 @@
+build/
+docstring_renderer.egg-info/
+*.pyc
